@@ -52,8 +52,8 @@ pub fn init_logger() {
     let _ = builder.try_init();
 }
 
-pub fn init_tracer() {
+pub fn init_tracer(level: Option<tracing::Level>) {
     tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::DEBUG)
+        .with_max_level(level.unwrap_or(tracing::Level::DEBUG))
         .init();
 }
