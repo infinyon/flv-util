@@ -6,6 +6,7 @@ use env_logger::{
     Builder,
 };
 use log::Level;
+use tracing_subscriber::EnvFilter;
 
 
 static MAX_MODULE_WIDTH: AtomicUsize = AtomicUsize::new(0);
@@ -55,5 +56,6 @@ pub fn init_logger() {
 pub fn init_tracer(level: Option<tracing::Level>) {
     tracing_subscriber::fmt()
         .with_max_level(level.unwrap_or(tracing::Level::DEBUG))
+        .with_env_filter(EnvFilter::from_default_env())
         .init();
 }
