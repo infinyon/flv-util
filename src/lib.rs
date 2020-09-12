@@ -14,3 +14,9 @@ pub use logger::init_tracer;
 
 pub use concurrent::SimpleConcurrentHashMap;
 pub use concurrent::SimpleConcurrentBTreeMap;
+
+/// re-export tracing
+pub mod log {
+
+    pub use tracing::*;
+}
