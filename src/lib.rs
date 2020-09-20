@@ -1,7 +1,7 @@
 #[cfg(feature = "fixture")]
 pub mod fixture;
 pub mod cmd;
-mod logger;
+
 mod concurrent;
 
 pub mod string_helper;
@@ -10,8 +10,7 @@ pub mod socket_helpers;
 pub mod macros;
 
 #[cfg(feature = "subscriber")]
-pub use logger::*;
-
+pub mod subscriber;
 
 pub use concurrent::SimpleConcurrentHashMap;
 pub use concurrent::SimpleConcurrentBTreeMap;
