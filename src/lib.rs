@@ -9,8 +9,9 @@ pub mod actions;
 pub mod socket_helpers;
 pub mod macros;
 
-pub use logger::init_logger;
-pub use logger::init_tracer;
+#[cfg(feature = "subscriber")]
+pub use logger::*;
+
 
 pub use concurrent::SimpleConcurrentHashMap;
 pub use concurrent::SimpleConcurrentBTreeMap;
