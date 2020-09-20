@@ -7,8 +7,8 @@ use std::net::ToSocketAddrs;
 use std::net::Ipv4Addr;
 use std::net::IpAddr;
 
-use crate::log::debug;
-use crate::log::error;
+use log::debug;
+use log::error;
 
 //
 // Structures

@@ -1,6 +1,6 @@
 [package]
 name = "flv-util"
-version = "0.5.0"
+version = "0.5.1"
 authors = ["Fluvio Contributors <team@fluvio.io>"]
 description = "utilies for Fluvio projects"
 repository = "https://github.com/infinyon/flv-util"
@@ -9,8 +9,7 @@ license = "Apache-2.0"
 
 [features]
 fixture = []
-subscriber = ["tracing-subscriber"]
+
 
 [dependencies]
-tracing = "0.1.0"
-tracing-subscriber = { version = "0.2.0", optional = true }
+log = "0.4.0"
