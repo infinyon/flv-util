@@ -1,4 +1,4 @@
-use crate::log::info;
+use log::info;
 use std::fs::remove_dir_all;
 use std::fs::remove_file;
 use std::fs::create_dir_all;
