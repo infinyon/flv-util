@@ -1,6 +1,7 @@
 use std::io;
 use std::io::Write;
 use std::process::{Command, ExitStatus};
+use tracing::debug;
 
 pub trait CommandExt {
     fn inherit(&mut self);
@@ -59,6 +60,7 @@ impl CommandExt for Command {
     fn print(&mut self) -> &mut Self {
         use std::env;
 
+        debug!("> {}", format!("{:?}", self).replace("\"", ""));
         if env::var_os("FLV_CMD").is_some() {
             println!(">> {}", format!("{:?}", self).replace("\"", ""));
         }
