@@ -5,22 +5,19 @@
 //! Operations supported:
 //! * push, count compare, traverse(iter.)
 //!
-use std::collections::vec_deque::Iter;
 use std::collections::vec_deque::IntoIter;
+use std::collections::vec_deque::Iter;
 use std::collections::VecDeque;
 
-
 /// queue of Action
-#[derive(Debug,Clone)]
+#[derive(Debug, Clone)]
 pub struct Actions<T>(VecDeque<T>);
-
 
 impl<T> ::std::default::Default for Actions<T> {
     fn default() -> Self {
         Self(VecDeque::new())
     }
 }
-
 
 impl<T> ::std::cmp::PartialEq for Actions<T>
 where
@@ -44,8 +41,7 @@ where
 }
 
 impl<T> Actions<T> {
-
-    pub fn add_all(&mut self,items: Vec<T>) {
+    pub fn add_all(&mut self, items: Vec<T>) {
         for item in items.into_iter() {
             self.push(item);
         }
@@ -75,12 +71,11 @@ impl<T> Actions<T> {
         self.0.pop_front()
     }
 
-
     pub fn count(&self) -> usize {
         self.0.len()
     }
 
-    pub fn iter<'a>(&'a self) -> Iter<'a, T> {
+    pub fn iter(&self) -> Iter<'_, T> {
         self.0.iter()
     }
 
@@ -89,8 +84,7 @@ impl<T> Actions<T> {
     }
 }
 
-
-impl <T>From<Vec<T>> for Actions<T> {
+impl<T> From<Vec<T>> for Actions<T> {
     fn from(vec: Vec<T>) -> Self {
         let mut actions = Self::default();
         for item in vec.into_iter() {

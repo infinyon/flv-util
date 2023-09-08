@@ -1,15 +1,23 @@
-use std::collections::HashMap;
 use std::collections::BTreeMap;
+use std::collections::HashMap;
 use std::hash::Hash;
 use std::sync::RwLock;
 use std::sync::RwLockReadGuard;
 use std::sync::RwLockWriteGuard;
 
-
 /// inefficient but simple concurren hashma
 /// this should be only used in a test
 /// it locks for every write
 pub struct SimpleConcurrentHashMap<K, V>(RwLock<HashMap<K, V>>);
+
+impl<K, V> Default for SimpleConcurrentHashMap<K, V>
+where
+    K: Eq + Hash,
+{
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
 impl<K, V> SimpleConcurrentHashMap<K, V>
 where
@@ -38,18 +46,20 @@ where
 }
 
 #[derive(Debug)]
-pub struct SimpleConcurrentBTreeMap<K,V>(RwLock<BTreeMap<K,V>>);
+pub struct SimpleConcurrentBTreeMap<K, V>(RwLock<BTreeMap<K, V>>);
 
-impl <K,V>Default for SimpleConcurrentBTreeMap<K,V> where K: Ord{
-
+impl<K, V> Default for SimpleConcurrentBTreeMap<K, V>
+where
+    K: Ord,
+{
     fn default() -> Self {
-         SimpleConcurrentBTreeMap(RwLock::new(BTreeMap::new()))
+        SimpleConcurrentBTreeMap(RwLock::new(BTreeMap::new()))
     }
-   
 }
 
-impl <K,V> SimpleConcurrentBTreeMap<K,V> 
-    where K: Ord 
+impl<K, V> SimpleConcurrentBTreeMap<K, V>
+where
+    K: Ord,
 {
     pub fn new() -> Self {
         SimpleConcurrentBTreeMap(RwLock::new(BTreeMap::new()))
@@ -71,6 +81,4 @@ impl <K,V> SimpleConcurrentBTreeMap<K,V>
     pub fn contains_key(&self, key: &K) -> bool {
         self.read().contains_key(key)
     }
-
-
 }

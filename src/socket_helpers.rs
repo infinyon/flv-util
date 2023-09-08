@@ -1,11 +1,11 @@
+use std::convert::TryFrom;
 use std::fmt;
 use std::io::Error as IoError;
 use std::io::ErrorKind;
-use std::convert::TryFrom;
+use std::net::IpAddr;
+use std::net::Ipv4Addr;
 use std::net::SocketAddr;
 use std::net::ToSocketAddrs;
-use std::net::Ipv4Addr;
-use std::net::IpAddr;
 
 use log::debug;
 use log::error;
@@ -20,11 +20,13 @@ pub struct ServerAddress {
 }
 
 impl ServerAddress {
-
-    pub fn new<S>(host: S,port: u16) -> Self where S: Into<String>{
+    pub fn new<S>(host: S, port: u16) -> Self
+    where
+        S: Into<String>,
+    {
         Self {
             host: host.into(),
-            port
+            port,
         }
     }
 }
@@ -78,42 +80,32 @@ pub fn host_port_to_socket_addr(host: &str, port: u16) -> Result<SocketAddr, IoE
 
 /// convert string to socket addr
 pub fn string_to_socket_addr(addr_string: &str) -> Result<SocketAddr, IoError> {
-    debug!("resolving host: {}",addr_string);
+    debug!("resolving host: {}", addr_string);
     match addr_string.to_socket_addrs() {
         Err(err) => {
-            error!("error resolving addr: {} {}",addr_string,err);
+            error!("error resolving addr: {} {}", addr_string, err);
             Err(err)
-        },
-        Ok(mut addrs_iter) => {
-            match addrs_iter.next() {
-                Some(addr) => {
-                    debug!("resolved: {}",addr);
-                    Ok(addr)
-                },
-                None => {
-                    error!("error resolving addr: {}",addr_string);
-                    Err(IoError::new(
-                        ErrorKind::InvalidInput,
-                        format!("host/port cannot be resolved {}", addr_string).as_str(),
-                    ))
-                }
-            }
         }
-    
+        Ok(mut addrs_iter) => match addrs_iter.next() {
+            Some(addr) => {
+                debug!("resolved: {}", addr);
+                Ok(addr)
+            }
+            None => {
+                error!("error resolving addr: {}", addr_string);
+                Err(IoError::new(
+                    ErrorKind::InvalidInput,
+                    format!("host/port cannot be resolved {}", addr_string).as_str(),
+                ))
+            }
+        },
     }
-
-
 }
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq, Clone, Default)]
 pub enum EndPointEncryption {
+    #[default]
     PLAINTEXT,
-}
-
-impl Default for EndPointEncryption {
-    fn default() -> Self {
-        EndPointEncryption::PLAINTEXT
-    }
 }
 
 impl fmt::Display for EndPointEncryption {
